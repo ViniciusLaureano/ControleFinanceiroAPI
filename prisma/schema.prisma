@@ -5,10 +5,44 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgcrypto]
+}
+
+model User {
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email      String     @unique
+  first_name String
+  last_name  String
+  nickname   String
+  permission String     @default("user")
+  User_Plan  User_Plan?
+
+  @@map("user")
+}
+
+model Plan {
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  value     Decimal     @db.Decimal(10, 2)
+  User_Plan User_Plan[]
+
+  @@map("plan")
+}
+
+model User_Plan {
+  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id String @unique @db.Uuid
+  user    User   @relation(fields: [user_id], references: [id])
+  plan_id String @db.Uuid
+  plan    Plan   @relation(fields: [plan_id], references: [id])
+
+  @@unique([user_id, plan_id])
+  @@map("user_plan")
 }
