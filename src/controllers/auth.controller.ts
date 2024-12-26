@@ -1,6 +1,16 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Request,
+} from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthLoginDTO } from 'src/dtos/auth/auth.login.dto';
 import { AuthRegisterDTO } from 'src/dtos/auth/auth.register.dto';
+import { AuthRequestDTO } from 'src/dtos/auth/auth.request.dto';
+import { AuthToken } from 'src/dtos/auth/auth.token.dto';
 import { AuthService } from 'src/services/auth.service';
 
 @ApiTags('Auth')
@@ -16,5 +26,18 @@ export class AuthController {
   })
   register(@Body() AuthRegisterDTO: AuthRegisterDTO): Promise<AuthRegisterDTO> {
     return this.authService.register(AuthRegisterDTO);
+  }
+
+  @Post('login')
+  @ApiOperation({
+    summary: 'Login',
+    description: 'user login that returns a validation token',
+  })
+  @ApiBody({
+    type: AuthLoginDTO,
+    description: 'User credentials for login',
+  })
+  login(@Request() req: AuthRequestDTO): AuthToken {
+    return new AuthToken();
   }
 }
