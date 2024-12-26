@@ -21,6 +21,7 @@ model User {
   first_name String
   last_name  String
   nickname   String
+  password   String
   permission String     @default("user")
   User_Plan  User_Plan?
 
