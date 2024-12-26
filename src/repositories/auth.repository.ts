@@ -9,4 +9,6 @@ export abstract class AuthRepository {
     password: string,
     permission: string,
   ): Promise<User>;
+
+  abstract searchUserLogin(email: string): Promise<User>;
 }

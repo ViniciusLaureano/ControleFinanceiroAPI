@@ -19,4 +19,8 @@ export class PrismaAuthRepository implements AuthRepository {
       data: { email, first_name, last_name, nickname, password, permission },
     });
   }
+
+  searchUserLogin(email: string): Promise<User> {
+    return this.prisma.user.findUnique({ where: { email: email } });
+  }
 }
