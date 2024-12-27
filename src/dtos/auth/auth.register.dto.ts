@@ -56,9 +56,9 @@ export class AuthRegisterDTO {
   password: string;
 
   @ApiPropertyOptional({
-    description: 'User permisison (only "admin" or "user")',
-    example: 'admin',
-    default: 'user',
+    description: 'User permisison (only "complete" or "basic")',
+    example: 'complete',
+    default: 'basic',
   })
   permission?: string;
 }
