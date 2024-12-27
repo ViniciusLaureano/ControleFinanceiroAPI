@@ -5,6 +5,7 @@ import { PrismaService } from 'src/database/prisma.service';
 import { PrismaAuthRepository } from 'src/repositories/auth.prisma.repository';
 import { AuthRepository } from 'src/repositories/auth.repository';
 import { AuthService } from 'src/services/auth.service';
+import { JwtStrategy } from 'src/strategies/jwt.strategy';
 import { LocalStrategy } from 'src/strategies/local.strategy';
 
 @Module({
@@ -19,6 +20,7 @@ import { LocalStrategy } from 'src/strategies/local.strategy';
     AuthService,
     PrismaService,
     LocalStrategy,
+    JwtStrategy,
     {
       provide: AuthRepository,
       useClass: PrismaAuthRepository,

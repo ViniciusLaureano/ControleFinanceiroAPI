@@ -8,6 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { IsPublic } from 'src/decorators/is.public.decorator';
 import { AuthLoginDTO } from 'src/dtos/auth/auth.login.dto';
 import { AuthRegisterDTO } from 'src/dtos/auth/auth.register.dto';
 import { AuthRequestDTO } from 'src/dtos/auth/auth.request.dto';
@@ -30,6 +31,7 @@ export class AuthController {
     return this.authService.register(AuthRegisterDTO);
   }
 
+  @IsPublic()
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
