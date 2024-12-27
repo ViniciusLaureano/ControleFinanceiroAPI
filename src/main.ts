@@ -28,7 +28,6 @@ async function bootstrap() {
 For all paths (with the exception of 'GET: /', 'POST: /auth/login' and 'POST: /auth/register'), a Barear Token is required to execute the request.`,
     )
     .setVersion('1.0')
-    .addTag('Base')
     .addBearerAuth(
       {
         type: 'http',
