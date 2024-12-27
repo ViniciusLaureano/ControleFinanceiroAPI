@@ -1,22 +1,41 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { CurrentUser } from './decorators/current.user.decorator';
 import { User } from '@prisma/client';
-import { UserFromJwt } from './models/user.jwt.model';
+import { UserFromJwt } from './models/auth/user.jwt.model';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('access-token')
+  @ApiOperation({
+    summary: 'Hello World!',
+    description: 'Hello World" message to test route with bearer token.',
+  })
+  @ApiOkResponse({
+    description: 'success',
+    type: String,
+    example: 'Hello World!',
+  })
   getHello(): string {
     return this.appService.getHello();
   }
 
   @Get('me')
+  @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('access-token')
+  @ApiOperation({
+    summary: 'Current user info',
+    description: 'returns login infos about current user.',
+  })
+  @ApiOkResponse({
+    description: 'success',
+    type: UserFromJwt,
+  })
   getMe(@CurrentUser() user: User): UserFromJwt {
     const { id, email, nickname, permission } = user;
     const obj: UserFromJwt = { id, email, nickname, permission };

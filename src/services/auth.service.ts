@@ -6,12 +6,11 @@ import {
 } from '@nestjs/common';
 import { AuthRegisterDTO } from 'src/dtos/auth/auth.register.dto';
 import { AuthRepository } from 'src/repositories/auth.repository';
-
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { AuthToken } from 'src/dtos/auth/auth.token.dto';
-import { AuthPayload } from 'src/models/auth.payload.model';
+import { AuthToken } from 'src/models/auth/auth.token.model';
+import { AuthPayload } from 'src/models/auth/auth.payload.model';
 
 @Injectable()
 export class AuthService {
