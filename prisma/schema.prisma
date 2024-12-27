@@ -37,6 +37,7 @@ model Plan {
   id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name      String      @db.VarChar(255)
   value     Decimal     @db.Decimal(10, 2)
+  months    Int
   User_Plan User_Plan[]
 
   @@map("plan")
