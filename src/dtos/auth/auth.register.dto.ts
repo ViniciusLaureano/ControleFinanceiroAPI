@@ -7,6 +7,11 @@ import {
   Matches,
 } from 'class-validator';
 
+export enum Permission {
+  BASIC = 'basic',
+  COMPLETE = 'complete',
+}
+
 export class AuthRegisterDTO {
   @ApiProperty({
     description: 'User email',
@@ -57,8 +62,9 @@ export class AuthRegisterDTO {
 
   @ApiPropertyOptional({
     description: 'User permisison (only "complete" or "basic")',
-    example: 'complete',
-    default: 'basic',
+    example: Permission.COMPLETE,
+    default: Permission.BASIC,
+    enum: Permission,
   })
-  permission?: string;
+  permission?: Permission;
 }
