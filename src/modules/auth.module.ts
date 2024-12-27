@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from 'src/controllers/auth.controller';
 import { PrismaService } from 'src/database/prisma.service';
+import { LoginValidationMiddleware } from 'src/middlewares/login.validation.middleware';
 import { PrismaAuthRepository } from 'src/repositories/auth.prisma.repository';
 import { AuthRepository } from 'src/repositories/auth.repository';
 import { AuthService } from 'src/services/auth.service';
@@ -27,4 +28,8 @@ import { LocalStrategy } from 'src/strategies/local.strategy';
     },
   ],
 })
-export class AuthModule {}
+export class AuthModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoginValidationMiddleware).forRoutes('auth/login');
+  }
+}
