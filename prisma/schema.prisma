@@ -15,14 +15,19 @@ datasource db {
   extensions = [pgcrypto]
 }
 
+enum UserPermission {
+  basic
+  complete
+}
+
 model User {
-  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email      String     @unique
-  first_name String
-  last_name  String
-  nickname   String
-  password   String
-  permission String     @default("user")
+  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email      String         @unique @db.VarChar(255)
+  first_name String         @db.VarChar(255)
+  last_name  String         @db.VarChar(255)
+  nickname   String         @db.VarChar(255)
+  password   String         @db.VarChar(255)
+  permission UserPermission @default(basic)
   User_Plan  User_Plan?
 
   @@map("user")
@@ -30,7 +35,7 @@ model User {
 
 model Plan {
   id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name      String
+  name      String      @db.VarChar(255)
   value     Decimal     @db.Decimal(10, 2)
   User_Plan User_Plan[]
 
@@ -38,12 +43,13 @@ model Plan {
 }
 
 model User_Plan {
-  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id String @unique @db.Uuid
-  user    User   @relation(fields: [user_id], references: [id])
-  plan_id String @db.Uuid
-  plan    Plan   @relation(fields: [plan_id], references: [id])
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String   @unique @db.Uuid
+  user        User     @relation(fields: [user_id], references: [id])
+  plan_id     String   @db.Uuid
+  plan        Plan     @relation(fields: [plan_id], references: [id])
+  start_date  DateTime @db.Date
+  finish_date DateTime @db.Date
 
-  @@unique([user_id, plan_id])
   @@map("user_plan")
 }
