@@ -21,6 +21,7 @@ import { AuthService } from 'src/services/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @IsPublic()
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({

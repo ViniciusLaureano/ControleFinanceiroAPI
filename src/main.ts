@@ -23,7 +23,14 @@ For all paths (with the exception of 'GET: /', 'POST: /auth/login' and 'POST: /a
     )
     .setVersion('1.0')
     .addTag('Base')
-    .addBearerAuth()
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'access-token',
+    )
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
