@@ -1,9 +1,9 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { AppService } from './app.service';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import { CurrentUser } from './decorators/current.user.decorator';
 import { User } from '@prisma/client';
-import { UserFromJwt } from './models/auth/user.jwt.model';
+import { UserFromJwt } from 'src/models/auth/user.jwt.model';
+import { CurrentUser } from 'src/decorators/current.user.decorator';
+import { AppService } from 'src/services/app.service';
 
 @Controller()
 export class AppController {
