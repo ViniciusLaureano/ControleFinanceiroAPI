@@ -23,6 +23,10 @@ export class AuthService {
     const { email, first_name, last_name, nickname, password, permission } =
       authRegisterDTO;
 
+    const alreadyExists = await this.authRepository.searchUserLogin(email);
+    if (alreadyExists)
+      throw new HttpException('User email already exists.', 400);
+
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
