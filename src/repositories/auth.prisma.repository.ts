@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { PrismaService } from 'src/database/prisma.service';
-import { User } from '@prisma/client';
+import { User, UserPermission } from '@prisma/client';
 
 @Injectable()
 export class PrismaAuthRepository implements AuthRepository {
@@ -13,7 +13,7 @@ export class PrismaAuthRepository implements AuthRepository {
     last_name: string,
     nickname: string,
     password: string,
-    permission: string,
+    permission: UserPermission,
   ): Promise<User> {
     return this.prisma.user.create({
       data: { email, first_name, last_name, nickname, password, permission },

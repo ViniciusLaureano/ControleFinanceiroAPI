@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { User, UserPermission } from '@prisma/client';
 
 export abstract class AuthRepository {
   abstract register(
@@ -7,7 +7,7 @@ export abstract class AuthRepository {
     last_name: string,
     nickname: string,
     password: string,
-    permission: string,
+    permission: UserPermission,
   ): Promise<User>;
 
   abstract searchUserLogin(email: string): Promise<User>;

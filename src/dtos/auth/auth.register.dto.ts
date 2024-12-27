@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { UserPermission } from '@prisma/client';
 import {
   IsEmail,
   IsNotEmpty,
@@ -6,11 +7,6 @@ import {
   Length,
   Matches,
 } from 'class-validator';
-
-export enum Permission {
-  BASIC = 'basic',
-  COMPLETE = 'complete',
-}
 
 export class AuthRegisterDTO {
   @ApiProperty({
@@ -62,9 +58,9 @@ export class AuthRegisterDTO {
 
   @ApiPropertyOptional({
     description: 'User permisison (only "complete" or "basic")',
-    example: Permission.COMPLETE,
-    default: Permission.BASIC,
-    enum: Permission,
+    example: UserPermission.complete,
+    default: UserPermission.basic,
+    enum: UserPermission,
   })
-  permission?: Permission;
+  permission?: UserPermission;
 }
