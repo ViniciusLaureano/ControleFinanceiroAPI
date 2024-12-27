@@ -8,7 +8,7 @@ import { UserPlanDTO } from 'src/dtos/user/userplan.dto';
 export class PrismaUserRepository implements UserRepository {
   constructor(private prisma: PrismaService) {}
   async getUserPlan(userId: string): Promise<UserPlanDTO> {
-    const userplan = await this.prisma.user_Plan.findUnique({
+    const userplan = await this.prisma.user_Plan.findUniqueOrThrow({
       where: { user_id: userId },
       include: { plan: true },
     });
