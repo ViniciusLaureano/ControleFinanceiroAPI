@@ -20,15 +20,36 @@ enum UserPermission {
   complete
 }
 
+enum CategoryInOut {
+  D
+  R
+}
+
+enum BankAccountType {
+  Conta_Corrente
+  Conta_Poupança
+  Conta_Investimento
+}
+
+enum TransactionType {
+  D
+  R
+  I
+}
+
 model User {
-  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email      String         @unique @db.VarChar(255)
-  first_name String         @db.VarChar(255)
-  last_name  String         @db.VarChar(255)
-  nickname   String         @db.VarChar(255)
-  password   String         @db.VarChar(255)
-  permission UserPermission @default(basic)
-  User_Plan  User_Plan?
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String         @unique @db.VarChar(255)
+  first_name   String         @db.VarChar(255)
+  last_name    String         @db.VarChar(255)
+  nickname     String         @db.VarChar(255)
+  password     String         @db.VarChar(255)
+  permission   UserPermission @default(basic)
+  User_Plan    User_Plan?
+  Allocation   Allocation[]
+  Category     Category[]
+  Bank_Account Bank_Account[]
+  Transaction  Transaction[]
 
   @@map("user")
 }
@@ -53,4 +74,105 @@ model User_Plan {
   finish_date DateTime @db.Date
 
   @@map("user_plan")
+}
+
+model Allocation {
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String        @db.VarChar(255)
+  percent     Decimal       @db.Decimal(5, 2)
+  user_id     String        @db.Uuid
+  user        User          @relation(fields: [user_id], references: [id])
+  Subcategory Subcategory[]
+
+  @@unique([user_id, name])
+  @@map("allocation")
+}
+
+model Category {
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String         @db.VarChar(255)
+  in_out      UserPermission
+  active      Boolean        @default(true)
+  user_id     String         @db.Uuid
+  user        User           @relation(fields: [user_id], references: [id])
+  Subcategory Subcategory[]
+
+  @@unique([user_id, name])
+  @@map("category")
+}
+
+model Subcategory {
+  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String        @db.VarChar(255)
+  active        Boolean       @default(true)
+  category_id   String        @db.Uuid
+  category      Category      @relation(fields: [category_id], references: [id])
+  allocation_id String        @db.Uuid
+  allocation    Allocation    @relation(fields: [allocation_id], references: [id])
+  Transaction   Transaction[]
+
+  @@unique([category_id, name])
+  @@map("Subcategory")
+}
+
+model Bank_Account {
+  id                 String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name               String               @db.VarChar(255)
+  type               BankAccountType
+  initial_value      Decimal              @default(0) @db.Decimal(10, 2)
+  total_transaction  Decimal              @default(0) @db.Decimal(10, 2)
+  bank               String               @db.VarChar(255)
+  active             Boolean              @default(true)
+  user_id            String               @db.Uuid
+  user               User                 @relation(fields: [user_id], references: [id])
+  Credit_Card        Credit_Card[]
+  Transaction_Method Transaction_Method[]
+  Transaction        Transaction[]
+
+  @@unique([user_id, name])
+  @@map("bank_account")
+}
+
+model Credit_Card {
+  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String       @db.VarChar(255)
+  expiration_date DateTime     @db.Date
+  limit_value     Decimal      @default(0) @db.Decimal(10, 2)
+  active          Boolean      @default(true)
+  bank_account    Bank_Account @relation(fields: [bank_account_id], references: [id])
+  bank_account_id String       @db.Uuid
+
+  @@unique([bank_account_id, name])
+  @@map("credit_card")
+}
+
+model Transaction_Method {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String        @db.VarChar(255)
+  active          Boolean       @default(true)
+  bank_account_id String        @db.Uuid
+  bank_account    Bank_Account  @relation(fields: [bank_account_id], references: [id])
+  Transaction     Transaction[]
+
+  @@unique([bank_account_id, name])
+  @@map("transaction_method")
+}
+
+model Transaction {
+  id                    String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type                  TransactionType
+  description           String?            @db.VarChar(255)
+  value                 Decimal            @db.Decimal(10, 2)
+  creation_date         DateTime           @db.Date
+  effective_date        DateTime?          @db.Date
+  subcategory_id        String             @db.Uuid
+  subcategory           Subcategory        @relation(fields: [subcategory_id], references: [id])
+  user_id               String             @db.Uuid
+  user                  User               @relation(fields: [user_id], references: [id])
+  bank_account_id       String             @db.Uuid
+  bank_account          Bank_Account       @relation(fields: [bank_account_id], references: [id])
+  transaction_method_id String             @db.Uuid
+  transaction_method    Transaction_Method @relation(fields: [transaction_method_id], references: [id])
+
+  @@map("transaction")
 }
