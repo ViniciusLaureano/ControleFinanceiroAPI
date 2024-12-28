@@ -9,4 +9,6 @@ export abstract class UserRepository {
     start_date: Date,
     finish_date: Date,
   ): Promise<User_Plan>;
+
+  abstract removePlan(user_id: string): void;
 }

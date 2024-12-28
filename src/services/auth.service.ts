@@ -11,12 +11,14 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { AuthToken } from 'src/models/auth/auth.token.model';
 import { AuthPayload } from 'src/models/auth/auth.payload.model';
+import { UserService } from './user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private authRepository: AuthRepository,
     private readonly jwtService: JwtService,
+    private readonly userService: UserService,
   ) {}
 
   async register(authRegisterDTO: AuthRegisterDTO): Promise<AuthRegisterDTO> {
@@ -64,6 +66,18 @@ export class AuthService {
       user = await this.authRepository.searchUserLogin(email);
 
       if (!user) throw new NotFoundException('User not found.');
+
+      const userPlan = await this.userService.getUserPlan(user.id);
+      const today = new Date();
+
+      if (userPlan.planId && userPlan.finishDate < today) {
+        let removed = false;
+        while (!removed) removed = await this.userService.removePlan(user.id);
+        user.permission = 'basic';
+        console.log(user);
+      }
+
+      console.log(user);
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) throw new UnauthorizedException();

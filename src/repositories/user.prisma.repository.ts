@@ -24,6 +24,7 @@ export class PrismaUserRepository implements UserRepository {
 
     return result;
   }
+
   assignPlan(
     user_id: string,
     plan_id: string,
@@ -41,6 +42,17 @@ export class PrismaUserRepository implements UserRepository {
         update: { plan_id, start_date, finish_date },
         where: { user_id },
       });
+    });
+  }
+
+  removePlan(user_id: string): void {
+    this.prisma.$transaction(async (prisma) => {
+      await prisma.user.update({
+        where: { id: user_id },
+        data: { permission: 'basic' },
+      });
+
+      await prisma.user_Plan.delete({ where: { user_id: user_id } });
     });
   }
 }

@@ -8,9 +8,11 @@ import { AuthRepository } from 'src/repositories/auth.repository';
 import { AuthService } from 'src/services/auth.service';
 import { JwtStrategy } from 'src/strategies/jwt.strategy';
 import { LocalStrategy } from 'src/strategies/local.strategy';
+import { UserModule } from './user.module';
 
 @Module({
   imports: [
+    UserModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1d' },

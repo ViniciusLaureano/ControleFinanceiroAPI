@@ -17,5 +17,6 @@ import { PlanModule } from './plan.module';
       useClass: PrismaUserRepository,
     },
   ],
+  exports: [UserService],
 })
 export class UserModule {}

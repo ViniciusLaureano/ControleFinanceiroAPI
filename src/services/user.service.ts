@@ -58,4 +58,15 @@ export class UserService {
 
     return transaction;
   }
+
+  async removePlan(userId: string): Promise<boolean> {
+    let result: boolean = true;
+    try {
+      await this.userRepository.removePlan(userId);
+    } catch (error) {
+      result = false;
+    }
+
+    return result;
+  }
 }
