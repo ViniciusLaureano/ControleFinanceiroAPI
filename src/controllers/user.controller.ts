@@ -1,10 +1,18 @@
-import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { UserAssignPlanDTO } from 'src/dtos/user/user.assign.plan.dto';
 import { UserPlanDTO } from 'src/dtos/user/userplan.dto';
 import { UserService } from 'src/services/user.service';
 
@@ -26,5 +34,15 @@ export class UserController {
   })
   getUserPlan(@Param('userId') userId: string): Promise<UserPlanDTO> {
     return this.userService.getUserPlan(userId);
+  }
+
+  @Post(':userId/plan/:planId')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiBearerAuth('access-token')
+  assignPlan(@Param() userAssignPlanDTO: UserAssignPlanDTO) {
+    return this.userService.assignPlan(
+      userAssignPlanDTO.userId,
+      userAssignPlanDTO.planId,
+    );
   }
 }

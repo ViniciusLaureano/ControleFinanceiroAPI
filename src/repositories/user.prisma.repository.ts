@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { PrismaService } from 'src/database/prisma.service';
-import { User } from '@prisma/client';
+import { User_Plan } from '@prisma/client';
 import { UserPlanDTO } from 'src/dtos/user/userplan.dto';
 
 @Injectable()
@@ -23,5 +23,24 @@ export class PrismaUserRepository implements UserRepository {
     };
 
     return result;
+  }
+  assignPlan(
+    user_id: string,
+    plan_id: string,
+    start_date: Date,
+    finish_date: Date,
+  ): Promise<User_Plan> {
+    return this.prisma.$transaction(async (prisma) => {
+      await prisma.user.update({
+        where: { id: user_id },
+        data: { permission: 'complete' },
+      });
+
+      return prisma.user_Plan.upsert({
+        create: { user_id, plan_id, start_date, finish_date },
+        update: { plan_id, start_date, finish_date },
+        where: { user_id },
+      });
+    });
   }
 }

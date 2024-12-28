@@ -15,5 +15,6 @@ import { PlanService } from 'src/services/plan.service';
       useClass: PrismaPlanRepository,
     },
   ],
+  exports: [PlanService],
 })
 export class PlanModule {}
