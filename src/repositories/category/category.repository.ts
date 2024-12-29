@@ -9,7 +9,11 @@ export abstract class CategoryRepository {
 
   abstract desactivateCategory(id: string): Promise<Category>;
 
-  abstract editCategory(id: string): Promise<Category>;
+  abstract editCategory(
+    id: string,
+    name: string,
+    in_out: CategoryInOut,
+  ): Promise<Category>;
 
   abstract createCategory(
     name: string,
