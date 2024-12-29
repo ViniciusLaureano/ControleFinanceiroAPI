@@ -1,5 +1,15 @@
-import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { Category } from '@prisma/client';
+import { CategoryCreateDTO } from 'src/dtos/category/category.create.dto';
+import { CategoryUserDTO } from 'src/dtos/category/category.user.dto';
 import { CategoryService } from 'src/services/category.service';
 
 @Controller('category')
@@ -7,32 +17,39 @@ export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
   @Get('')
-  getCategories(): Promise<Category[]> {
-    throw new Error('Method not implemented.');
+  getCategories(@Body() categoryUserDTO: CategoryUserDTO): Promise<Category[]> {
+    return this.categoryService.getCategories(categoryUserDTO.userId);
   }
 
   @Get('total')
-  getTotalActivesCategories(): Promise<number> {
-    throw new Error('Method not implemented.');
+  getTotalActivesCategories(
+    @Body() categoryUserDTO: CategoryUserDTO,
+  ): Promise<number> {
+    return this.categoryService.getTotalActivesCategories(
+      categoryUserDTO.userId,
+    );
   }
 
   @Get(':id')
   getCategoryById(@Param('id') id: string): Promise<Category> {
-    throw new Error('Method not implemented.');
+    return this.categoryService.getCategoryById(id);
   }
 
   @Delete(':id')
   deleteCategory(@Param('id') id: string): Promise<Category> {
-    throw new Error('Method not implemented.');
+    return this.categoryService.deleteCategory(id);
   }
 
   @Put(':id')
-  editCategory(): Promise<Category> {
-    throw new Error('Method not implemented.');
+  editCategory(
+    @Param('id') id: string,
+    @Body() body: CategoryCreateDTO,
+  ): Promise<Category> {
+    return this.categoryService.editCategory(id, body);
   }
 
   @Post('')
-  createCategory(): Promise<Category> {
-    throw new Error('Method not implemented.');
+  createCategory(@Body() body: CategoryCreateDTO): Promise<Category> {
+    return this.categoryService.createCategory(body);
   }
 }

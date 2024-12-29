@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Category, CategoryInOut } from '@prisma/client';
+import { CategoryCreateDTO } from 'src/dtos/category/category.create.dto';
 import { CategoryRepository } from 'src/repositories/category/category.repository';
 
 @Injectable()
@@ -18,14 +19,10 @@ export class CategoryService {
   desactivateCategory(id: string): Promise<Category> {
     throw new Error('Method not implemented.');
   }
-  editCategory(id: string): Promise<Category> {
+  editCategory(id: string, body: CategoryCreateDTO): Promise<Category> {
     throw new Error('Method not implemented.');
   }
-  createCategory(
-    name: string,
-    in_out: CategoryInOut,
-    user_id: string,
-  ): Promise<Category> {
+  createCategory(data: CategoryCreateDTO): Promise<Category> {
     throw new Error('Method not implemented.');
   }
   getTotalActivesCategories(user_id: string): Promise<number> {
