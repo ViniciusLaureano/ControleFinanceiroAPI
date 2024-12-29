@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthRegisterDTO } from 'src/dtos/auth/auth.register.dto';
-import { AuthRepository } from 'src/repositories/auth.repository';
+import { AuthRepository } from 'src/repositories/auth/auth.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';

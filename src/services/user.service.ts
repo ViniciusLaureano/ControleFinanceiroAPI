@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { UserPlanDTO } from 'src/dtos/user/userplan.dto';
-import { UserRepository } from 'src/repositories/user.repository';
+import { UserRepository } from 'src/repositories/user/user.repository';
 import { PlanService } from './plan.service';
 import { User_Plan } from '@prisma/client';
 

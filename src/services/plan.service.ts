@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { Plan } from '@prisma/client';
-import { PlanRepository } from 'src/repositories/plan.repository';
+import { PlanRepository } from 'src/repositories/plan/plan.repository';
 
 @Injectable()
 export class PlanService {

@@ -1,7 +1,7 @@
 import { PrismaService } from 'src/database/prisma.service';
-import { PlanRepository } from './plan.repository';
 import { Injectable } from '@nestjs/common';
 import { Plan } from '@prisma/client';
+import { PlanRepository } from './plan.repository';
 
 @Injectable()
 export class PrismaPlanRepository implements PlanRepository {
