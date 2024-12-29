@@ -8,9 +8,10 @@ import { JwtAuthGuard } from 'src/guards/jwt.auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { UserModule } from './user.module';
 import { PlanModule } from './plan.module';
+import { CategoryModule } from './category.module';
 
 @Module({
-  imports: [AuthModule, UserModule, PlanModule],
+  imports: [AuthModule, UserModule, PlanModule, CategoryModule],
   controllers: [AppController],
   providers: [
     AppService,
