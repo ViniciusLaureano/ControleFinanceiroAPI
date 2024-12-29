@@ -89,12 +89,12 @@ model Allocation {
 }
 
 model Category {
-  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String         @db.VarChar(255)
-  in_out      UserPermission
-  active      Boolean        @default(true)
-  user_id     String         @db.Uuid
-  user        User           @relation(fields: [user_id], references: [id])
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String        @db.VarChar(255)
+  in_out      CategoryInOut
+  active      Boolean       @default(true)
+  user_id     String        @db.Uuid
+  user        User          @relation(fields: [user_id], references: [id])
   Subcategory Subcategory[]
 
   @@unique([user_id, name])
