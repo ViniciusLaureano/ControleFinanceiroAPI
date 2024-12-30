@@ -74,10 +74,7 @@ export class AuthService {
         let removed = false;
         while (!removed) removed = await this.userService.removePlan(user.id);
         user.permission = 'basic';
-        console.log(user);
       }
-
-      console.log(user);
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) throw new UnauthorizedException();
