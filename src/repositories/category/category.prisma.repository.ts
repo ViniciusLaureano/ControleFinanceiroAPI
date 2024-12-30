@@ -10,8 +10,15 @@ export class PrismaCategoryRepository implements CategoryRepository {
   getCategories(user_id: string): Promise<Category[]> {
     return this.prisma.category.findMany({ where: { user_id } });
   }
+
+  getActivatesCategories(user_id: string): Promise<Category[]> {
+    return this.prisma.category.findMany({ where: { user_id, active: true } });
+  }
+
   getCategoryById(id: string): Promise<Category> {
-    return this.prisma.category.findUniqueOrThrow({ where: { id } });
+    return this.prisma.category.findUniqueOrThrow({
+      where: { id, active: true },
+    });
   }
 
   deleteCategory(id: string): Promise<Category> {
@@ -24,6 +31,14 @@ export class PrismaCategoryRepository implements CategoryRepository {
       data: { active: false },
     });
   }
+
+  activateCategory(id: string): Promise<Category> {
+    return this.prisma.category.update({
+      where: { id },
+      data: { active: true },
+    });
+  }
+
   editCategory(
     id: string,
     name: string,
@@ -34,6 +49,7 @@ export class PrismaCategoryRepository implements CategoryRepository {
       data: { name, in_out },
     });
   }
+
   createCategory(
     name: string,
     in_out: CategoryInOut,
@@ -41,7 +57,8 @@ export class PrismaCategoryRepository implements CategoryRepository {
   ): Promise<Category> {
     return this.prisma.category.create({ data: { name, in_out, user_id } });
   }
+
   getTotalActivesCategories(user_id: string): Promise<number> {
-    return this.prisma.category.count({ where: { user_id } });
+    return this.prisma.category.count({ where: { user_id, active: true } });
   }
 }

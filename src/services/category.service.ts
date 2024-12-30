@@ -7,9 +7,9 @@ import { CategoryRepository } from 'src/repositories/category/category.repositor
 export class CategoryService {
   constructor(private categoryRepository: CategoryRepository) {}
 
-  getCategories(userId: string): Promise<Category[]> {
+  getActivatesCategories(userId: string): Promise<Category[]> {
     try {
-      return this.categoryRepository.getCategories(userId);
+      return this.categoryRepository.getActivatesCategories(userId);
     } catch (error) {
       throw new HttpException('Error', 400);
     }
@@ -49,10 +49,17 @@ export class CategoryService {
     }
   }
 
-  createCategory(data: CategoryCreateDTO): Promise<Category> {
+  async createCategory(data: CategoryCreateDTO): Promise<Category> {
     const { name, in_out, user_id } = data;
+    const allUserCategories = (await this.getCategories(user_id)).filter(
+      (category) => category.name === name,
+    );
     try {
-      return this.categoryRepository.createCategory(name, in_out, user_id);
+      if (allUserCategories.length == 1)
+        return this.categoryRepository.activateCategory(
+          allUserCategories[0].id,
+        );
+      else return this.categoryRepository.createCategory(name, in_out, user_id);
     } catch (error) {
       throw new HttpException('Error', 400);
     }
@@ -61,6 +68,14 @@ export class CategoryService {
   getTotalActivesCategories(user_id: string): Promise<number> {
     try {
       return this.categoryRepository.getTotalActivesCategories(user_id);
+    } catch (error) {
+      throw new HttpException('Error', 400);
+    }
+  }
+
+  private getCategories(userId: string): Promise<Category[]> {
+    try {
+      return this.categoryRepository.getCategories(userId);
     } catch (error) {
       throw new HttpException('Error', 400);
     }

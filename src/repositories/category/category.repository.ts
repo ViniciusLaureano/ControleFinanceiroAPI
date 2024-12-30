@@ -3,11 +3,15 @@ import { Category, CategoryInOut } from '@prisma/client';
 export abstract class CategoryRepository {
   abstract getCategories(user_id: string): Promise<Category[]>;
 
+  abstract getActivatesCategories(user_id: string): Promise<Category[]>;
+
   abstract getCategoryById(id: string): Promise<Category>;
 
   abstract deleteCategory(id: string): Promise<Category>;
 
   abstract desactivateCategory(id: string): Promise<Category>;
+
+  abstract activateCategory(id: string): Promise<Category>;
 
   abstract editCategory(
     id: string,
