@@ -9,7 +9,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Category } from '@prisma/client';
 import { CategoryCreateDTO } from 'src/dtos/category/category.create.dto';
 import { CategoryUserDTO } from 'src/dtos/category/category.user.dto';
@@ -61,6 +61,14 @@ export class CategoryController {
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   @ApiBearerAuth('access-token')
+  @ApiOperation({
+    summary: 'Create Category',
+    description: 'Create a category for user',
+  })
+  @ApiBody({
+    type: CategoryCreateDTO,
+    description: 'Options to create a new Category in user',
+  })
   createCategory(@Body() body: CategoryCreateDTO): Promise<Category> {
     return this.categoryService.createCategory(body);
   }
