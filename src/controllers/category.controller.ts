@@ -20,22 +20,18 @@ import { CategoryService } from 'src/services/category.service';
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
-  @Get('')
+  @Get('user/:userId')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('access-token')
-  getCategories(@Body() categoryUserDTO: CategoryUserDTO): Promise<Category[]> {
-    return this.categoryService.getCategories(categoryUserDTO.userId);
+  getCategories(@Param('userId') userId: string): Promise<Category[]> {
+    return this.categoryService.getCategories(userId);
   }
 
-  @Get('total')
+  @Get('user/:userId/total')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('access-token')
-  getTotalActivesCategories(
-    @Body() categoryUserDTO: CategoryUserDTO,
-  ): Promise<number> {
-    return this.categoryService.getTotalActivesCategories(
-      categoryUserDTO.userId,
-    );
+  getTotalActivesCategories(@Param('userId') userId: string): Promise<number> {
+    return this.categoryService.getTotalActivesCategories(userId);
   }
 
   @Get(':id')
