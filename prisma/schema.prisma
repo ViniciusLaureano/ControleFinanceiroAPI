@@ -23,18 +23,13 @@ enum UserPermission {
 enum CategoryInOut {
   D
   R
+  I
 }
 
 enum BankAccountType {
   Conta_Corrente
   Conta_Poupança
   Conta_Investimento
-}
-
-enum TransactionType {
-  D
-  R
-  I
 }
 
 model User {
@@ -160,7 +155,7 @@ model Transaction_Method {
 
 model Transaction {
   id                    String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  type                  TransactionType
+  type                  CategoryInOut
   description           String?            @db.VarChar(255)
   value                 Decimal            @db.Decimal(10, 2)
   creation_date         DateTime           @db.Date
