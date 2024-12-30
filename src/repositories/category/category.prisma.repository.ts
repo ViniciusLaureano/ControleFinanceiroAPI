@@ -1,9 +1,12 @@
 import { PrismaService } from 'src/database/prisma.service';
 import { CategoryRepository } from './category.repository';
 import { Category, CategoryInOut } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class PrismaCategoryRepository implements CategoryRepository {
   constructor(private prisma: PrismaService) {}
+
   getCategories(user_id: string): Promise<Category[]> {
     return this.prisma.category.findMany({ where: { user_id } });
   }
