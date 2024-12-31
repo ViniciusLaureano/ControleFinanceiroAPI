@@ -105,7 +105,7 @@ export class PrismaAuthRepository implements AuthRepository {
         await prisma.category.create({
           data: {
             user_id: user.id,
-            name: 'Casa de Aluguel - Receitas',
+            name: 'Casa de Aluguel',
             in_out: 'R',
           },
         }),
@@ -115,7 +115,7 @@ export class PrismaAuthRepository implements AuthRepository {
         await prisma.category.create({
           data: {
             user_id: user.id,
-            name: 'Casa de Aluguel - Gastos',
+            name: 'Casa de Aluguel',
             in_out: 'D',
           },
         }),
