@@ -12,4 +12,12 @@ export abstract class SubcategoryRepository {
     name: string,
     allocation_id: string,
   ): Promise<Subcategory>;
+
+  abstract updateSubcategory(
+    id: string,
+    name: string,
+    allocation_id: string,
+  ): Promise<Subcategory>;
+
+  abstract deleteSubcategory(id: string): Promise<Subcategory>;
 }

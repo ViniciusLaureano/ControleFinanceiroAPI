@@ -1,15 +1,18 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Subcategory } from '@prisma/client';
 import { SubcategoryCreateDTO } from 'src/dtos/subcategory/subcategory.create.dto';
+import { SubcategoryUpdateDTO } from 'src/dtos/subcategory/subcategory.update.dto';
 import { SubcategoryService } from 'src/services/subcategory.service';
 
 @ApiTags('Subcategory')
@@ -38,5 +41,22 @@ export class SubcategoryController {
   @ApiBearerAuth('access-token')
   createSubcategory(@Body() body: SubcategoryCreateDTO): Promise<Subcategory> {
     return this.subcategoryService.createSubcategory(body);
+  }
+
+  @Put(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('access-token')
+  updateSubcategory(
+    @Param('id') id: string,
+    @Body() body: SubcategoryUpdateDTO,
+  ): Promise<Subcategory> {
+    return this.subcategoryService.updateSubcategory(id, body);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('access-token')
+  deleteSubcategory(@Param('id') id: string): Promise<Subcategory> {
+    return this.subcategoryService.deleteSubcategory(id);
   }
 }

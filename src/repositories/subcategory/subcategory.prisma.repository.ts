@@ -24,4 +24,19 @@ export class PrismaSubcategoryRepository implements SubcategoryRepository {
       data: { name, allocation_id, category_id },
     });
   }
+
+  updateSubcategory(
+    id: string,
+    name: string,
+    allocation_id: string,
+  ): Promise<Subcategory> {
+    return this.prisma.subcategory.update({
+      where: { id },
+      data: { name, allocation_id },
+    });
+  }
+
+  deleteSubcategory(id: string): Promise<Subcategory> {
+    return this.prisma.subcategory.delete({ where: { id } });
+  }
 }
