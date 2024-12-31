@@ -87,19 +87,17 @@ model Category {
   id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String        @db.VarChar(255)
   in_out      CategoryInOut
-  active      Boolean       @default(true)
   user_id     String        @db.Uuid
   user        User          @relation(fields: [user_id], references: [id])
   Subcategory Subcategory[]
 
-  @@unique([user_id, name])
+  @@unique([user_id, name, in_out])
   @@map("category")
 }
 
 model Subcategory {
   id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String        @db.VarChar(255)
-  active        Boolean       @default(true)
   category_id   String        @db.Uuid
   category      Category      @relation(fields: [category_id], references: [id])
   allocation_id String        @db.Uuid
@@ -117,7 +115,6 @@ model Bank_Account {
   initial_value      Decimal              @default(0) @db.Decimal(10, 2)
   total_transaction  Decimal              @default(0) @db.Decimal(10, 2)
   bank               String               @db.VarChar(255)
-  active             Boolean              @default(true)
   user_id            String               @db.Uuid
   user               User                 @relation(fields: [user_id], references: [id])
   Credit_Card        Credit_Card[]
@@ -133,7 +130,6 @@ model Credit_Card {
   name            String       @db.VarChar(255)
   expiration_date DateTime     @db.Date
   limit_value     Decimal      @default(0) @db.Decimal(10, 2)
-  active          Boolean      @default(true)
   bank_account    Bank_Account @relation(fields: [bank_account_id], references: [id])
   bank_account_id String       @db.Uuid
 
@@ -144,7 +140,6 @@ model Credit_Card {
 model Transaction_Method {
   id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String        @db.VarChar(255)
-  active          Boolean       @default(true)
   bank_account_id String        @db.Uuid
   bank_account    Bank_Account  @relation(fields: [bank_account_id], references: [id])
   Transaction     Transaction[]
