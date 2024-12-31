@@ -23,15 +23,15 @@ export class CategoryController {
   @Get('user/:userId')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('access-token')
-  getActivatesCategories(@Param('userId') userId: string): Promise<Category[]> {
-    return this.categoryService.getActivatesCategories(userId);
+  getCategories(@Param('userId') userId: string): Promise<Category[]> {
+    return this.categoryService.getCategories(userId);
   }
 
   @Get('user/:userId/total')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('access-token')
-  getTotalActivesCategories(@Param('userId') userId: string): Promise<number> {
-    return this.categoryService.getTotalActivesCategories(userId);
+  getTotalCategories(@Param('userId') userId: string): Promise<number> {
+    return this.categoryService.getTotalCategories(userId);
   }
 
   @Get(':id')

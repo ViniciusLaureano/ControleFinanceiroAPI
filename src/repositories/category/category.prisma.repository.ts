@@ -11,32 +11,14 @@ export class PrismaCategoryRepository implements CategoryRepository {
     return this.prisma.category.findMany({ where: { user_id } });
   }
 
-  getActivatesCategories(user_id: string): Promise<Category[]> {
-    return this.prisma.category.findMany({ where: { user_id, active: true } });
-  }
-
   getCategoryById(id: string): Promise<Category> {
     return this.prisma.category.findUniqueOrThrow({
-      where: { id, active: true },
+      where: { id },
     });
   }
 
   deleteCategory(id: string): Promise<Category> {
     return this.prisma.category.delete({ where: { id } });
-  }
-
-  desactivateCategory(id: string): Promise<Category> {
-    return this.prisma.category.update({
-      where: { id },
-      data: { active: false },
-    });
-  }
-
-  activateCategory(id: string): Promise<Category> {
-    return this.prisma.category.update({
-      where: { id },
-      data: { active: true },
-    });
   }
 
   editCategory(
@@ -58,7 +40,7 @@ export class PrismaCategoryRepository implements CategoryRepository {
     return this.prisma.category.create({ data: { name, in_out, user_id } });
   }
 
-  getTotalActivesCategories(user_id: string): Promise<number> {
-    return this.prisma.category.count({ where: { user_id, active: true } });
+  getTotalCategories(user_id: string): Promise<number> {
+    return this.prisma.category.count({ where: { user_id } });
   }
 }

@@ -7,9 +7,9 @@ import { CategoryRepository } from 'src/repositories/category/category.repositor
 export class CategoryService {
   constructor(private categoryRepository: CategoryRepository) {}
 
-  getActivatesCategories(userId: string): Promise<Category[]> {
+  getCategories(userId: string): Promise<Category[]> {
     try {
-      return this.categoryRepository.getActivatesCategories(userId);
+      return this.categoryRepository.getCategories(userId);
     } catch (error) {
       throw new HttpException('Error', 400);
     }
@@ -27,14 +27,6 @@ export class CategoryService {
     try {
       return this.categoryRepository.deleteCategory(id);
     } catch (error) {
-      return this.desactivateCategory(id);
-    }
-  }
-
-  private desactivateCategory(id: string): Promise<Category> {
-    try {
-      return this.categoryRepository.desactivateCategory(id);
-    } catch (error) {
       throw new HttpException('Error', 400);
     }
   }
@@ -49,33 +41,18 @@ export class CategoryService {
     }
   }
 
-  async createCategory(data: CategoryCreateDTO): Promise<Category> {
+  createCategory(data: CategoryCreateDTO): Promise<Category> {
     const { name, in_out, user_id } = data;
-    const allUserCategories = (await this.getCategories(user_id)).filter(
-      (category) => category.name === name,
-    );
     try {
-      if (allUserCategories.length == 1)
-        return this.categoryRepository.activateCategory(
-          allUserCategories[0].id,
-        );
-      else return this.categoryRepository.createCategory(name, in_out, user_id);
+      return this.categoryRepository.createCategory(name, in_out, user_id);
     } catch (error) {
       throw new HttpException('Error', 400);
     }
   }
 
-  getTotalActivesCategories(user_id: string): Promise<number> {
+  getTotalCategories(user_id: string): Promise<number> {
     try {
-      return this.categoryRepository.getTotalActivesCategories(user_id);
-    } catch (error) {
-      throw new HttpException('Error', 400);
-    }
-  }
-
-  private getCategories(userId: string): Promise<Category[]> {
-    try {
-      return this.categoryRepository.getCategories(userId);
+      return this.categoryRepository.getTotalCategories(user_id);
     } catch (error) {
       throw new HttpException('Error', 400);
     }
