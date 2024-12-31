@@ -9,9 +9,16 @@ import { RolesGuard } from 'src/guards/roles.guard';
 import { UserModule } from './user.module';
 import { PlanModule } from './plan.module';
 import { CategoryModule } from './category.module';
+import { SubcategoryModule } from './subcategory.module';
 
 @Module({
-  imports: [AuthModule, UserModule, PlanModule, CategoryModule],
+  imports: [
+    AuthModule,
+    UserModule,
+    PlanModule,
+    CategoryModule,
+    SubcategoryModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
