@@ -16,4 +16,11 @@ export class SubcategoryController {
   ): Promise<Subcategory[]> {
     return this.subcategoryService.getSubcategoryByCategory(categoryId);
   }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('access-token')
+  getSubcategoryById(@Param('id') id: string): Promise<Subcategory> {
+    return this.subcategoryService.getSubcategoryById(id);
+  }
 }

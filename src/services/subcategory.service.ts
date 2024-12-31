@@ -13,4 +13,12 @@ export class SubcategoryService {
       throw new HttpException('Error', 400);
     }
   }
+
+  getSubcategoryById(id: string): Promise<Subcategory> {
+    try {
+      return this.subcategoryRepository.getSubcategoryById(id);
+    } catch (error) {
+      throw new HttpException('Error', 400);
+    }
+  }
 }

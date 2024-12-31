@@ -10,4 +10,8 @@ export class PrismaSubcategoryRepository implements SubcategoryRepository {
   getSubcategoryByCategory(category_id: string): Promise<Subcategory[]> {
     return this.prisma.subcategory.findMany({ where: { category_id } });
   }
+
+  getSubcategoryById(id: string): Promise<Subcategory> {
+    return this.prisma.subcategory.findUnique({ where: { id } });
+  }
 }
