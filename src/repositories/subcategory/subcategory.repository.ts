@@ -6,4 +6,10 @@ export abstract class SubcategoryRepository {
   ): Promise<Subcategory[]>;
 
   abstract getSubcategoryById(id: string): Promise<Subcategory>;
+
+  abstract createSubcategory(
+    category_id: string,
+    name: string,
+    allocation_id: string,
+  ): Promise<Subcategory>;
 }

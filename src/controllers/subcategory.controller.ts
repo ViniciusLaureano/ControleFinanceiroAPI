@@ -1,6 +1,15 @@
-import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Subcategory } from '@prisma/client';
+import { SubcategoryCreateDTO } from 'src/dtos/subcategory/subcategory.create.dto';
 import { SubcategoryService } from 'src/services/subcategory.service';
 
 @ApiTags('Subcategory')
@@ -22,5 +31,12 @@ export class SubcategoryController {
   @ApiBearerAuth('access-token')
   getSubcategoryById(@Param('id') id: string): Promise<Subcategory> {
     return this.subcategoryService.getSubcategoryById(id);
+  }
+
+  @Post('')
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('access-token')
+  createSubcategory(@Body() body: SubcategoryCreateDTO): Promise<Subcategory> {
+    return this.subcategoryService.createSubcategory(body);
   }
 }
