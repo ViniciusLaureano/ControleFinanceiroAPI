@@ -10,6 +10,7 @@ import { UserModule } from './user.module';
 import { PlanModule } from './plan.module';
 import { CategoryModule } from './category.module';
 import { SubcategoryModule } from './subcategory.module';
+import { AllocationModule } from './allocation.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { SubcategoryModule } from './subcategory.module';
     PlanModule,
     CategoryModule,
     SubcategoryModule,
+    AllocationModule,
   ],
   controllers: [AppController],
   providers: [
