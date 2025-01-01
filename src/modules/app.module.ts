@@ -12,6 +12,7 @@ import { CategoryModule } from './category.module';
 import { SubcategoryModule } from './subcategory.module';
 import { AllocationModule } from './allocation.module';
 import { BankAccountModule } from './bank.account.module';
+import { CreditCardModule } from './credit.card.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { BankAccountModule } from './bank.account.module';
     SubcategoryModule,
     AllocationModule,
     BankAccountModule,
+    CreditCardModule,
   ],
   controllers: [AppController],
   providers: [
