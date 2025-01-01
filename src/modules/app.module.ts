@@ -11,6 +11,7 @@ import { PlanModule } from './plan.module';
 import { CategoryModule } from './category.module';
 import { SubcategoryModule } from './subcategory.module';
 import { AllocationModule } from './allocation.module';
+import { BankAccountModule } from './bank.account.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AllocationModule } from './allocation.module';
     CategoryModule,
     SubcategoryModule,
     AllocationModule,
+    BankAccountModule,
   ],
   controllers: [AppController],
   providers: [
