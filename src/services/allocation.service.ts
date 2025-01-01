@@ -1,5 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { Allocation } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime/library';
 import { AllocationRepository } from 'src/repositories/allocation/allocation.repository';
 
 @Injectable()
@@ -24,6 +25,12 @@ export class AllocationService {
 
   updateAllocation(allocations: Allocation[]): Promise<Allocation[]> {
     try {
+      const sumAllocations = new Decimal(allocations[0].percent)
+        .plus(allocations[1].percent)
+        .plus(allocations[2].percent);
+
+      if (sumAllocations.comparedTo(new Decimal(100)) !== 0)
+        throw new HttpException('The sum of values must be 100', 400);
       return this.allocationRepository.updateAllocation(
         allocations[0],
         allocations[1],
