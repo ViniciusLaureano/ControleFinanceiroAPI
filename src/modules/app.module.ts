@@ -13,6 +13,7 @@ import { SubcategoryModule } from './subcategory.module';
 import { AllocationModule } from './allocation.module';
 import { BankAccountModule } from './bank.account.module';
 import { CreditCardModule } from './credit.card.module';
+import { TransactionMethodModule } from './transaction.method.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CreditCardModule } from './credit.card.module';
     AllocationModule,
     BankAccountModule,
     CreditCardModule,
+    TransactionMethodModule,
   ],
   controllers: [AppController],
   providers: [
